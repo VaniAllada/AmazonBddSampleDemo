@@ -14,7 +14,7 @@ import cucumber.api.junit.Cucumber;
 
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features="Features", glue={"com.amazon.stepdefinations"}, monochrome=true,
+@CucumberOptions(features="Features/Email.feature", glue={"com.amazon.stepdefinations"}, monochrome=true,
 plugin= {"com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-extent reports/report.html",
 "pretty","junit:target/MyReports/report.xml","html:target/cucumber-html-report",
 	"json:target/MyReports/report.json"})
@@ -25,4 +25,5 @@ public class AmazonTestRunner {
 	public static void extentReport() {
 		  Reporter.loadXMLConfig(new File(com.amazon.extentreport.FileReaderManager.getInstance().getConfigReader().getReportConfigPath()));	
     }
+	
 }

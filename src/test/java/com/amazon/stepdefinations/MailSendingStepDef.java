@@ -5,38 +5,35 @@ import java.util.Properties;
 import org.openqa.selenium.WebDriver;
 
 import com.amazon.pageobject.AddToCartPage;
+
 import com.amazon.pageobject.MailSendingPage;
 import com.amazon.utilities.ConfigReader;
-import com.amazon.utilities.DriverFactory;
+
+import com.amazon.utilities.TestBase;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class MailSendingStepDef {
+public class MailSendingStepDef extends TestBase{
 
-	//Variable Declartion
-		private DriverFactory driverFactory;
-		private WebDriver driver;
-		private ConfigReader configReader;
-		Properties prop;
+	//Variable Declaration	
 		MailSendingPage mailSending;
+		TestBase testBase;
 		
-	
+	//open chrome browser and navigat to gmail
 	@Given("^Open chromebrowser and navigate to gmail$")
 	public void open_chromebrowser_and_navigate_to_gmail() throws Throwable {
-	 
-		configReader = new ConfigReader();
-		prop = configReader.init_prop();
-		driverFactory = new DriverFactory();
-		driverFactory.getDriver().get(prop.getProperty("gmailUrl"));
-			
+//		prop = new Properties();
+		testBase.initialization();		
+		testBase.setUpGmailUrl();
+		mailSending =new MailSendingPage();		
 	}
 
+	// enter valid email and click next button action
 	@When("^Enter a valid Email Id or Phone Number and Click Next button$")
-	public void enter_a_valid_Email_Id_or_Phone_Number_and_Click_Next_button() throws Throwable {
-		mailSending = new MailSendingPage(DriverFactory.getDriver());
+	public void enter_a_valid_Email_Id_or_Phone_Number_and_Click_Next_button() throws Throwable {	
 		mailSending.enterValidEmailAndClickNext();
 	}
 
@@ -64,4 +61,5 @@ public class MailSendingStepDef {
 	public void enter_some_text_in_body_and_Click_send_button() throws Throwable {
 		//mailSending.clickSendButton();
 	}
+	
 }

@@ -5,52 +5,64 @@ package com.amazon.pageobject;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import com.amazon.utilities.TestBase;
+
 //class
-public class SortingPage {
+public class SortingPage extends TestBase {
 	
-	        //Variable Declaration
-			private WebDriver driver;
-			
+	 //Page Factory - Object Repository
+	
+	@FindBy(xpath="//a[@id='nav-hamburger-menu']")
+	WebElement menu;
+	
+	@FindBy(xpath="//*[@id=\"hmenu-content\"]/ul[1]/li[17]/a")
+	WebElement mensFashion;
+	
+	@FindBy(xpath="//a[text()='T-shirts & Polos']")
+	WebElement tShirtsAndPolos;
+	
+	@FindBy(xpath="//*[@id=\"s-refinements\"]/div[11]/ul/li[4]/span/a/div/label/i")
+	WebElement brandSelection;
+	
+	@FindBy(xpath="//*[@id=\"p_89/LEOTUDE\"]/span/a/span")
+	WebElement brandObservation;
+	
 			//Parameterised Constructor
-			public SortingPage(WebDriver driver) {
-				this.driver = driver;
+			public SortingPage() {
+				PageFactory.initElements(driver, this);
 			}
 			
+        			
 			//Menu Button Action
 			public void menuAllCatagories() {  //Click Menu Button Action
 				
-			//Finding an web element
-			WebElement menu=driver.findElement(By.xpath("//a[@id='nav-hamburger-menu']"));	
-				
-			//Mouse over event
+				//Mouse over event
 			Actions act = new Actions(driver);
 			act.moveToElement(menu).perform();
 			menu.click();
 				
 			// Sorting 
-//			WebElement seeAll=driver.findElement(By.xpath("//*[@id=\"hmenu-content\"]/ul[1]/li[19]/a[1]/div"));	
-//			Select dropdown = new Select(seeAll); 
-//			dropdown.selectByIndex(3); 
-				
-			//Scrolling Down Function
-			List<WebElement> optionList = driver.findElements(By.xpath("//*[@id=\"hmenu-content\"]/ul[1]/li[19]/a[1]/div"));
-			// The option you mentioned in your example is stored at position #17 in an array so either you can manually enter the number or you can find it by running FOR lool
-			((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", optionList.get(5) );
-
-			// Other way that I prefer is:
-			JavascriptExecutor je = (JavascriptExecutor) driver;
-			je.executeScript("arguments[0].scrollIntoView(true);", optionList.get(5) );
-				
-//				driver.manage().timeouts().implicitlyWait(com.amazon.utilities.TestUtils.IMPLICIT_WAIT, TimeUnit.SECONDS);
-				
-				
+			mensFashion.click();
+			tShirtsAndPolos.click();
+		
 				}
+			
+			public void brandSelectionObservation() {
+				brandSelection.click();
+//				 Assert.assertTrue(brandObservation.isDisplayed());
+//			     System.out.println(brandObservation.isDisplayed());
+			     
+				
+			}
 
 }

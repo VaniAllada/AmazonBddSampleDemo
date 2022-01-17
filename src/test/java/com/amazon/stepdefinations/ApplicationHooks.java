@@ -7,8 +7,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
-import com.amazon.utilities.DriverFactory;
 import com.amazon.utilities.ConfigReader;
+import com.amazon.utilities.TestBase;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -18,53 +18,37 @@ public class ApplicationHooks {
 
 
 	//Variable Declartion
-	private DriverFactory driverFactory;
+	
 	private WebDriver driver;
 	private ConfigReader configReader;
 	Properties prop;
-	
-	//annotations
-	@Before(order = 0)
-	public void getProperty() {
-		configReader = new ConfigReader();
-		prop = configReader.init_prop();
-	}
-	
-	@Before(order = 1) 
-	public void lauchBrowser() {
-		String browserName = prop.getProperty("FFBrowser");
-		driverFactory = new DriverFactory();
-		driverFactory.init_driver(browserName);
-		
-      
-	}
-	
+
 	@After(order = 0)
 	public void quitBrowser() {
 		//driverFactory.getDriver().close();    // closing bowser
 	}
 	
-	@After(order = 1)
-	public void endTest(Scenario scenario) { // Taking Screenshots for failed testcases
-		if (scenario.isFailed()) {
+	 @After
+		public void endTest(Scenario scenario) { // Taking Screenshots for failed testcases
+			if (scenario.isFailed()) {
 
-			try {
-    // Taking Screenshot code for failed Testcases
-				final byte[] screenshot = ((TakesScreenshot) DriverFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
-				scenario.embed(screenshot, "image/png"); // ... and embed it in
-			} catch (WebDriverException e) {
-				e.printStackTrace();
+				try {
+
+					final byte[] screenshot = ((TakesScreenshot) TestBase.driver).getScreenshotAs(OutputType.BYTES);
+					scenario.embed(screenshot, "image/png"); // ... and embed it in
+				} catch (WebDriverException e) {
+					e.printStackTrace();
+				}
+
+			} else {   // Taking Screenshots for passed testcases
+				try {
+					scenario.embed(((TakesScreenshot) TestBase.driver).getScreenshotAs(OutputType.BYTES), "image/png");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-			
-		} else {   // Taking Screenshots for passed testcases
-			try {
-				scenario.embed(((TakesScreenshot) DriverFactory.getDriver()).getScreenshotAs(OutputType.BYTES), "image/png");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+
+//			TestBase.driver.quit();
 		}
-
-	//	DriverFactory.getDriver().quit();
-	}
 		
 }

@@ -7,41 +7,63 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.amazon.utilities.TestBase;
 
 //Class
-public class MailSendingPage {
+public class MailSendingPage extends TestBase{
 
-	        //Variable Declaration
-			private WebDriver driver;
 			
 			//Parameterised Constructor
-			public MailSendingPage(WebDriver driver) {
-				this.driver = driver;
+			public MailSendingPage() {
+				PageFactory.initElements(driver, this);
 			}
 			
+			//Page Factory - Object Repository			
+			@FindBy(xpath="//*[@id='identifierId']")
+			WebElement emailId;
+			
+			@FindBy(xpath="//span[text()='Next']")
+			WebElement nextBtnClick;
+			
+			@FindBy(xpath="//div[@class='vxx8jf']")
+			WebElement pwdNavigate;
+			
+			@FindBy(xpath="//input[@type='password']")
+			WebElement password;
+			
+//			@FindBy(xpath="//div[@class='vxx8jf']")
+//			WebElement pwdNavigate;
+//			
+//			@FindBy(xpath="//div[@class='vxx8jf']")
+//			WebElement pwdNavigate;
+//			
+			
 			public void enterValidEmailAndClickNext() {  // Email Entering code 
-
-				WebElement emailId = driver.findElement(By.xpath("//input[@type='email']"));
-				emailId.sendKeys("vanidasari.ios3607@gmail.com");
-				emailId.sendKeys(Keys.ENTER);
 				
-				//mouse over event for next button
-				WebElement nextBtnClick = driver.findElement(By.xpath("//span[text()='Next']"));
+//				
+				emailId.click(); // Keep this click statement even if you are using click before clear.
+				emailId.clear();
+				emailId.sendKeys("peddineni.chenna@gmail.com");
+//				emailId.sendKeys("vanidasari.ios3607@gmail.com");
+//				emailId.sendKeys(Keys.ENTER);
+				
+				//mouse over event for next button		
 				Actions act = new Actions(driver);
 				act.moveToElement(nextBtnClick).perform();
-				//nextBtnClick.click();
+				nextBtnClick.click();
 			
 			}
 			
 			//User going to the enter password and click the signin button
 			public void enterPasswordAndClickSignIn() {
 				
-				WebElement pwdNavigate = driver.findElement(By.xpath("//div[@class='vxx8jf']"));
 				Actions act = new Actions(driver);
 				act.moveToElement(pwdNavigate).perform();
 				
 				//Finding an xpath for an element
-				WebElement password = driver.findElement(By.xpath("//input[@type='password']"));
 				password.sendKeys("Amark@3607");  // passing some text using sendkeys method
 				password.sendKeys(Keys.ENTER); // Keys.Enter method perform Enter event after entered the text
 				
